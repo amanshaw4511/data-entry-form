@@ -1,14 +1,23 @@
 import {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
+import {post} from '../Common/Common';
 
 const AddOxygen = ({cities}) => {
-   const {register, handleSubmit} = useForm(); 
-    const onSubmit = (data) => console.log(data);
+   const {register, handleSubmit, reset} = useForm(); 
+    const onSubmit = (data) => {
+        data = {
+            ...data,
+            cityId: data.cityId,
+            locationId: data.locationId,
+            stock: data.stock,
+        }
+        post('/api/oxygen', data, reset);
+    }
 
     const [locations, setLocations] = useState([]);
     const getLocations = (cityId) => {
-         axios.get('http://covidapp-dev.ap-south-1.elasticbeanstalk.com/api/master/location?locationTypeId=1&cityId=' + cityId)
+         axios.get(process.env.REACT_APP_BASE_URL + '/api/master/location?locationTypeId=1&cityId=' + cityId)
              .then((response => {
                  setLocations(response.data.payload)
              }));
@@ -52,11 +61,6 @@ const AddOxygen = ({cities}) => {
             <label> phone </label>
             <input type="phone" {...register('phone', {required: true})}/>
             <br />
-
-            <label> votes </label>
-            <input type="number" {...register('votes')}  disabled/>
-            <br />
-            
 
             <input type="submit" />
         </form>

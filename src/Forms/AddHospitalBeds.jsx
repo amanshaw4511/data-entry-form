@@ -1,14 +1,22 @@
 import {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
+import {post} from '../Common/Common';
 
 const AddHospitalBeds = ({cities}) => {
-   const {register, handleSubmit} = useForm(); 
-    const onSubmit = (data) => console.log(data);
+   const {register, handleSubmit, reset} = useForm(); 
+    const onSubmit = (data) => {
+        data = {
+            ...data,
+            cityId: parseInt(data.cityId),
+            locationId: parseInt(data.locationId),
+        }
+        post('/api/hospitalbeds', data, reset);
+    }
 
     const [locations, setLocations] = useState([]);
     const getLocations = (cityId) => {
-        axios.get('http://covidapp-dev.ap-south-1.elasticbeanstalk.com/api/master/location?locationTypeId=1&cityId=' + cityId)
+        axios.get(process.env.REACT_APP_BASE_URL +'/api/master/location?locationTypeId=1&cityId=' + cityId)
             .then((response => {
                 setLocations(response.data.payload);
             }));

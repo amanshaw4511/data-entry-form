@@ -1,8 +1,14 @@
 import {useForm} from 'react-hook-form';
+import {post} from '../Common/Common';
 
 const AddDoctor = ({cities}) => {
-   const {register, handleSubmit} = useForm(); 
-    const onSubmit = (data) => console.log(data);
+   const {register, handleSubmit, reset} = useForm(); 
+
+    const onSubmit = (data) => {
+        data = {...data, cityId: parseInt(data.cityId)}
+        post('/api/doctors', data, reset);
+    }
+
 
 
     return (

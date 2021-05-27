@@ -1,8 +1,15 @@
 import {useForm} from 'react-hook-form';
+import {post} from '../Common/Common';
+import useTiming from '../Common/UseTimingHook';
 
 const AddHelpline = ({cities}) => {
-   const {register, handleSubmit} = useForm(); 
-    const onSubmit = (data) => console.log(data);
+    const {inputTiming, getTiming} = useTiming();
+   const {register, handleSubmit, reset} = useForm(); 
+    const onSubmit = (data) => {
+        data = getTiming(data);
+        data = {...data, cityId: parseInt(data.cityId)};
+        post('/api/master/helplines', data, reset);
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
@@ -27,14 +34,7 @@ const AddHelpline = ({cities}) => {
             <input {...register('notes', {required: true})}/>
             <br />
 
-            <label> timing </label>
-            <input {...register('timing', {required: true})}/>
-            <br />
-
-            <label> votes </label>
-            <input type="number" {...register('votes')}  disabled/>
-            <br />
-            
+            {inputTiming("", register)}
 
             <input type="submit" />
         </form>

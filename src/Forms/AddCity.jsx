@@ -1,8 +1,11 @@
 import {useForm} from 'react-hook-form';
+import {post} from '../Common/Common';
 
 const AddCity = () => {
-   const {register, handleSubmit} = useForm(); 
-    const onSubmit = (data) => console.log(data);
+    const {register, handleSubmit, reset} = useForm(); 
+    const onSubmit = (data) => {
+        post('/api/master/city',data, reset);
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} >

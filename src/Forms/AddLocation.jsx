@@ -1,8 +1,24 @@
 import {useForm} from 'react-hook-form';
+import {post} from '../Common/Common';
+import useTiming from '../Common/UseTimingHook';
 
 const AddLocation = ({cities}) => {
-   const {register, handleSubmit} = useForm(); 
-    const onSubmit = (data) => console.log(data);
+    const {inputTiming, getTiming} = useTiming();
+   const {register, handleSubmit, reset} = useForm(); 
+    const onSubmit = (data) => {
+        data = {
+            ...data,
+            cityId: parseInt(data.cityId),
+            locationTypeId: parseInt(data.locationTypeId)
+        };
+        data = getTiming(data);
+        post('/api/master/location', data, reset);
+    };
+
+    const locationTypes = [
+        {id: 1, name: "Hostpital Location"},
+        { id: 2, name: "MedicalShop Location" },
+    ]
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
@@ -14,6 +30,14 @@ const AddLocation = ({cities}) => {
 
             <label> locationName </label>
             <input {...register('locationName', {required: true})}/>
+            <br />
+
+            <label> location Type </label>
+            <select {...register('locationTypeId')}>
+                {locationTypes.map(location => 
+                    <option key={location.id} value={location.id}>{location.name}</option>
+                )}
+            </select>
             <br />
 
             <label> address </label>
@@ -32,9 +56,7 @@ const AddLocation = ({cities}) => {
             <input type="number" {...register('latitude')}/>
             <br />
             
-            <label> timing </label>
-            <input {...register('timing')}/>
-            <br />
+            {inputTiming("", register)}
 
             <label> notes </label>
             <input {...register('notes', {required: true})}/>
@@ -43,11 +65,6 @@ const AddLocation = ({cities}) => {
             <label> phones </label>
             <input type="phone" {...register('phones', {required: true})}/>
             <br />
-
-            <label> votes </label>
-            <input type="number" {...register('votes')}  disabled/>
-            <br />
-            
 
             <input type="submit" />
         </form>
