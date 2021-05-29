@@ -1,74 +1,76 @@
-import {useForm} from 'react-hook-form';
-import {post} from '../Common/Common';
-import useTiming from '../Common/UseTimingHook';
+import { useForm } from "react-hook-form";
+import {
+  post,
+  Text_input,
+  Phone_input,
+  Text_area,
+  Check_box,
+  Submit,
+  Select_city,
+  Select_location,
+} from "../Common/Common";
+import useTiming from "../Common/UseTimingHook";
 
-const AddLocation = ({cities}) => {
-    const {inputTiming, getTiming} = useTiming();
-   const {register, handleSubmit, reset} = useForm(); 
-    const onSubmit = (data) => {
-        data = {
-            ...data,
-            cityId: parseInt(data.cityId),
-            locationTypeId: parseInt(data.locationTypeId)
-        };
-        data = getTiming(data);
-        post('/api/master/location', data, reset);
+const AddLocation = ({ cities }) => {
+  const { inputTiming, getTiming } = useTiming();
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = (data) => {
+    data = {
+      ...data,
+      cityId: parseInt(data.cityId),
+      locationTypeId: parseInt(data.locationTypeId),
     };
+    data = getTiming(data);
+    post("/api/master/location", data, reset);
+  };
 
-    const locationTypes = [
-        {id: 1, name: "Hostpital Location"},
-        { id: 2, name: "MedicalShop Location" },
-    ]
+  const locationTypes = [
+    { id: 1, name: "Hostpital Location" },
+    { id: 2, name: "MedicalShop Location" },
+  ];
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} >
-            <label> city </label>
-            <select {...register('cityId')} >
-                {cities.map(city => <option key={city.id} value={city.id}> {city.cityName} </option>)}
-            </select>
-            <br />
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Select_city register={register} cities={cities} />
 
-            <label> locationName </label>
-            <input {...register('locationName', {required: true})}/>
-            <br />
+      <Text_input
+        register={register}
+        name="locationName"
+        args={{ required: true }}
+      />
 
-            <label> location Type </label>
-            <select {...register('locationTypeId')}>
-                {locationTypes.map(location => 
-                    <option key={location.id} value={location.id}>{location.name}</option>
-                )}
-            </select>
-            <br />
+      <Select_location register={register} locationTypes={locationTypes} />
 
-            <label> address </label>
-            <input {...register('address')}/>
-            <br />
-            
-            <label> isPrivate </label>
-            <input type="checkbox" {...register('icuWithVentilator')}/>
-            <br />
-            
-            <label> longitude </label>
-            <input type="number" {...register('longitude')}/>
-            <br />
+      <Text_area
+        register={register}
+        name="locationName"
+        args={{ required: true }}
+      />
 
-            <label> latitude </label>
-            <input type="number" {...register('latitude')}/>
-            <br />
-            
-            {inputTiming("", register)}
+      <Check_box register={register} name="isPrivate" />
 
-            <label> notes </label>
-            <input {...register('notes', {required: true})}/>
-            <br />
+      <Check_box register={register} name="icuWithVentilator" />
 
-            <label> phones </label>
-            <input type="phone" {...register('phones', {required: true})}/>
-            <br />
+      <Text_input
+      register={register}
+      name="longitude"
+      />
 
-            <input type="submit" />
-        </form>
-    )
-}
+      <Text_input
+      register={register}
+      name="latitude"
+      />
+
+
+      {inputTiming("", register)}
+
+      <Text_area register={register} name="notes" />
+
+      <Phone_input register={register} name="phone" args={{ required: true }} />
+
+      <Submit />
+    </form>
+  );
+};
 
 export default AddLocation;

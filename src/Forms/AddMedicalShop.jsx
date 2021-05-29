@@ -1,17 +1,30 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { post } from "../Common/Common";
+import {
+  post,
+  Text_area,
+  Text_input,
+  Submit,
+  Phone_input,
+  Select_city,
+  Select_locations,
+  Check_box,
+} from "../Common/Common";
+
+import useTiming from "../Common/UseTimingHook";
 
 const AddMedicalShop = ({ cities }) => {
+  const { inputTiming, getTiming } = useTiming();
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-      data = {
-          ...data,
-          cityId: parseInt(data.cityId),
-          locationId: parseInt(data.locationId),
-          stock: parseInt(data.stock),
-      }
+    data = getTiming(data);
+    data = {
+      ...data,
+      cityId: parseInt(data.cityId),
+      locationId: parseInt(data.locationId),
+      stock: parseInt(data.stock),
+    };
     post("/api/medicines/medicalshops", data, reset);
   };
 
@@ -30,64 +43,36 @@ const AddMedicalShop = ({ cities }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <label> city </label>
-      <select
-        {...register("cityId")}
-        onChange={(event) => getLocations(event.target.value)}
-      >
-        {cities.map((city) => (
-          <option key={city.id} value={city.id}>
-            {" "}
-            {city.cityName}{" "}
-          </option>
-        ))}
-      </select>
-      <br />
+      <Select_city
+        register={register}
+        cities={cities}
+        getLocations={getLocations}
+      />
+      <Select_locations register={register} locations={locations} />
 
-      <label> location </label>
-      <select {...register("locationId")}>
-        {locations.map((location) => (
-          <option key={location.id} value={location.id}>
-            {" "}
-            {location.locationName}{" "}
-          </option>
-        ))}
-      </select>
-      <br />
+      <Text_input
+        register={register}
+        name="price"
+        type="number"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="stock"
+        type="number"
+        args={{ required: true }}
+      />
 
-      <label> price </label>
-      <input type="number" {...register("price", { required: true })} />
-      <br />
+      {inputTiming({}, register)}
 
-      <label> stock </label>
-      <input type="number" {...register("stock")} />
-      <br />
+      <Check_box register={register} name="isVerified" />
+      <Check_box register={register} name="isDeliverable" />
 
-      <label> timing </label>
-      <input {...register("timing")} />
-      <br />
+      <Text_area register={register} name="notes" />
 
-      <label> isVerified </label>
-      <input type="checkbox" {...register("isVerified")} />
-      <br />
+      <Phone_input register={register} name="phone" />
 
-      <label> isDeliverable </label>
-      <input type="checkbox" {...register("isDeliverable")} />
-      <br />
-
-      <label> notes </label>
-      <input {...register("notes", { required: true })} />
-      <br />
-
-      <label> phone </label>
-      <input type="phone" {...register("phone", { required: true })} />
-      <br />
-
-      <label> votes </label>
-      <input type="number" {...register("votes")} disabled />
-      <br />
-
-      <input type="submit" />
+      <Submit />
     </form>
   );
 };

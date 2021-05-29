@@ -1,71 +1,59 @@
-import {useForm} from 'react-hook-form';
-import {post} from '../Common/Common';
+import { useForm } from "react-hook-form";
+import {
+  post,
+  Text_area,
+  Text_input,
+  Submit,
+  Phone_input,
+  Select_city,
+  Check_box,
+} from "../Common/Common";
 
-const AddDoctor = ({cities}) => {
-   const {register, handleSubmit, reset} = useForm(); 
+const AddDoctor = ({ cities }) => {
+  const { register, handleSubmit, reset } = useForm();
 
-    const onSubmit = (data) => {
-        data = {...data, cityId: parseInt(data.cityId)}
-        post('/api/doctors', data, reset);
-    }
+  const onSubmit = (data) => {
+    data = { ...data, cityId: parseInt(data.cityId) };
+    post("/api/doctors", data, reset);
+  };
 
-
-
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} >
-            <label> city </label>
-            <select {...register('cityId')} >
-                {cities.map(city => <option key={city.id} value={city.id}> {city.cityName} </option>)}
-            </select>
-            <br />
-
-            <label> doctorName </label>
-            <input {...register('doctorName', {required: true})}/>
-            <br />
-            
-            <label> designation </label>
-            <input {...register('designation', {required: true})}/>
-            <br />
-
-            <label> experience </label>
-            <input {...register('experience', {required: true})}/>
-            <br />
-
-            <label> qualification </label>
-            <input {...register('qualification', {required: true})}/>
-            <br />
-
-            <label> medium </label>
-            <input {...register('medium', {required: true})}/>
-            <br />
-
-            <label> mediumLink </label>
-            <input {...register('mediumLink', {required: true})}/>
-            <br />
-
-            <label> fees </label>
-            <input {...register('fees', {required: true})}/>
-            <br />
-
-            <label> notes </label>
-            <input {...register('notes', {required: true})}/>
-            <br />
-
-            <label> phone </label>
-            <input type="phone" {...register('phone', {required: true})}/>
-            <br />
-
-            <label> address </label>
-            <input {...register('address', {required: true})}/>
-            <br />
-
-            <label> isVerified </label>
-            <input type="checkbox" {...register('isVerified', {required: true})}/>
-            <br />
-
-            <input type="submit" />
-        </form>
-    )
-}
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Select_city register={register} cities={cities} />
+      <Text_input
+        register={register}
+        name="doctorName"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="designation"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="experience"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="qualification"
+        args={{ required: true }}
+      />
+      <Text_input register={register} name="medium" args={{ required: true }} />
+      <Text_input
+        register={register}
+        name="mediumLink"
+        args={{ required: true }}
+      />
+      <Text_input register={register} name="fees" args={{ required: true }} />
+      <Text_area register={register} name="notes" />
+      <Phone_input register={register} name="phone" />
+      <Text_area register={register} name="address" />
+      <Check_box register={register} name="isVerified" />
+      <Submit />
+    </form>
+  );
+};
 
 export default AddDoctor;

@@ -1,6 +1,14 @@
 import { useForm } from "react-hook-form";
 import useTiming from "../Common/UseTimingHook";
-import { post } from "../Common/Common";
+import {
+  post,
+  Text_area,
+  Text_input,
+  Check_box,
+  Submit,
+  Phone_input,
+  Select_city,
+} from "../Common/Common";
 
 const AddAmbulance = ({ cities }) => {
   const { inputTiming, getTiming } = useTiming();
@@ -15,56 +23,34 @@ const AddAmbulance = ({ cities }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <label> city </label>
-      <select {...register("cityId")}>
-        {cities.map((city) => (
-          <option key={city.id} value={city.id}>
-            {" "}
-            {city.cityName}{" "}
-          </option>
-        ))}
-      </select>
-      <br />
+      <Select_city register={register} cities={cities} />
 
-      <label> ambulanceName </label>
-      <input {...register("ambulanceName", { required: true })} />
-      <br />
+      <Text_input
+        register={register}
+        name="ambulanceName"
+        args={{ required: true }}
+      />
 
-      <label> isAirConditioned </label>
-      <input type="checkbox" {...register("isAirConditioned")} />
-      <br />
+      <Check_box register={register} name="isAirConditioned" />
+      <Check_box register={register} name="oxygenAvailable" />
+      <Check_box register={register} name="providesOutstationService" />
+      <Check_box register={register} name="acceptsCovidPatient" />
 
-      <label> oxygenAvailable </label>
-      <input type="checkbox" {...register("oxygenAvailable")} />
-      <br />
+      <Check_box register={register} name="isVerified" />
 
-      <label> providesOutstationService </label>
-      <input type="checkbox" {...register("providesOutstationService")} />
-      <br />
-
-      <label> acceptsCovidPatient </label>
-      <input type="checkbox" {...register("acceptsCovidPatient")} />
-      <br />
-
-      <label> charges </label>
-      <input type="number" {...register("charges", { required: true })} />
-      <br />
-
-      <label> isVerified </label>
-      <input type="checkbox" {...register("isVerified")} />
-      <br />
+      <Text_input
+        register={register}
+        name="charges"
+        args={{ required: true }}
+      />
 
       {inputTiming("", register)}
 
-      <label> notes </label>
-      <input {...register("notes", { required: true })} />
-      <br />
+      <Text_area register={register} name="notes" />
 
-      <label> phone </label>
-      <input type="phone" {...register("phone", { required: true })} />
-      <br />
+      <Phone_input register={register} name="phone" />
 
-      <input type="submit" />
+      <Submit />
     </form>
   );
 };

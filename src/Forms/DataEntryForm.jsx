@@ -44,15 +44,18 @@ const SelectForm = () => {
     const onSubmit = (data) => { setDisplayForm(forms[data.form]) }
 
     return (
-        <div className="container" >
+        <div className="container mx-2 my-4" >
         <form onSubmit={handleSubmit(onSubmit)} >
-            <label> Form </label>
-            <select {...register('form')} >
+            <div className="form-group row" >
+            <label className="col-3"> Form </label>
+            <select 
+            className="form-control col mr-3"
+            {...register('form')} >
                 {Object.keys(forms).map(form => <option key={form} value={form}> {form} </option>)}
             </select>
-            <br />
+            </div>
 
-            <input type="submit" value="Open"/>
+            <input className="btn btn-primary" type="submit" value="Open"/>
         </form> 
         <br />
         {displayForm}

@@ -1,5 +1,5 @@
 import {useForm} from 'react-hook-form';
-import {post} from '../Common/Common';
+import {post,Text_area, Select_city,Phone_input, Text_input, Submit} from '../Common/Common';
 import useTiming from '../Common/UseTimingHook';
 
 const AddHelpline = ({cities}) => {
@@ -13,30 +13,33 @@ const AddHelpline = ({cities}) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
-            <label> city </label>
-            <select {...register('cityId')} >
-                {cities.map(city => <option key={city.id} value={city.id}> {city.cityName} </option>)}
-            </select>
+          <Select_city register={register} cities={cities} />
 
-            <label> helplineName </label>
-            <input {...register('helplineName', {required: true})}/>
-            <br />
+        <Text_input
+            register={register}
+            name="helplineName"
+            args={{required:true}}
+        />
+        <Text_input
+            register={register}
+            name="link"
+            args={{required:true}}
+        />
 
-            <label> link</label>
-            <input {...register('link')}/>
-            <br />
+        <Phone_input 
+         register={register}
+         name="phone"
+        />
 
-            <label> phone </label>
-            <input type="number" {...register('phone')}  disabled/>
-            <br />
-
-            <label> notes </label>
-            <input {...register('notes', {required: true})}/>
-            <br />
+        <Text_area
+            register={register}
+            name="notes"
+            args={{required:true}}
+        />
 
             {inputTiming("", register)}
 
-            <input type="submit" />
+        <Submit />
         </form>
     )
 }

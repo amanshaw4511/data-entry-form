@@ -1,70 +1,78 @@
-import {useState} from 'react';
-import {useForm} from 'react-hook-form';
-import axios from 'axios';
-import {post} from '../Common/Common';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import {
+  post,
+  Text_area,
+  Text_input,
+  Submit,
+  Select_city,
+  Select_locations,
+  Phone_input,
+  Check_box,
+} from "../Common/Common";
+import useTiming from "../Common/UseTimingHook";
 
-const AddOxygen = ({cities}) => {
-   const {register, handleSubmit, reset} = useForm(); 
-    const onSubmit = (data) => {
-        data = {
-            ...data,
-            cityId: data.cityId,
-            locationId: data.locationId,
-            stock: data.stock,
-        }
-        post('/api/oxygen', data, reset);
-    }
-
-    const [locations, setLocations] = useState([]);
-    const getLocations = (cityId) => {
-         axios.get(process.env.REACT_APP_BASE_URL + '/api/master/location?locationTypeId=1&cityId=' + cityId)
-             .then((response => {
-                 setLocations(response.data.payload)
-             }));
-        
+const AddOxygen = ({ cities }) => {
+  const { inputTiming, getTiming } = useTiming();
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = (data) => {
+    data = {
+      ...data,
+      cityId: data.cityId,
+      locationId: data.locationId,
+      stock: data.stock,
     };
+    data = getTiming(data);
+    post("/api/oxygen", data, reset);
+  };
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} >
-            <label> city </label>
-            <select {...register('cityId')} onChange={(event) => getLocations(event.target.value)} >
-                {cities.map(city => <option key={city.id} value={city.id}> {city.cityName} </option>)}
-            </select>
-            <br />
+  const [locations, setLocations] = useState([]);
+  const getLocations = (cityId) => {
+    axios
+      .get(
+        process.env.REACT_APP_BASE_URL +
+          "/api/master/location?locationTypeId=1&cityId=" +
+          cityId
+      )
+      .then((response) => {
+        setLocations(response.data.payload);
+      });
+  };
 
-            <label> location </label>
-            <select {...register('locationId') } >
-                {locations.map(location => <option key={location.id} value={location.id}> {location.locationName} </option>)}
-            </select>
-            <br />
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Select_city
+        register={register}
+        cities={cities}
+        getLocations={getLocations}
+      />
+      <Select_locations register={register} locations={locations} />
 
-            <label> price </label>
-            <input {...register('price', {required: true})}/>
-            <br />
+      <Text_input
+        register={register}
+        name="price"
+        type="number"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="stock"
+        type="number"
+        args={{ required: true }}
+      />
 
-            <label> stock </label>
-            <input {...register('stock')}/>
-            <br />
-            
-            <label> timing </label>
-            <input {...register('timing')}/>
-            <br />
-            
-            <label> isVerified </label>
-            <input type="checkbox" {...register('isVerified')}/>
-            <br />
+      {inputTiming({}, register)}
 
-            <label> notes </label>
-            <input {...register('notes', {required: true})}/>
-            <br />
+      <Check_box register={register} name="isVerified" />
 
-            <label> phone </label>
-            <input type="phone" {...register('phone', {required: true})}/>
-            <br />
+      <Text_area register={register} name="notes" />
 
-            <input type="submit" />
-        </form>
-    )
-}
+      <Phone_input register={register} name="phone" />
+
+      <Submit />
+    </form>
+  );
+};
 
 export default AddOxygen;

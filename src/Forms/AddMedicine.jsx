@@ -1,25 +1,24 @@
-import {useForm} from 'react-hook-form';
-import {post} from '../Common/Common';
+import { useForm } from "react-hook-form";
+import { post, Submit, Text_area, Text_input } from "../Common/Common";
 
 const AddAmbulance = () => {
-   const {register, handleSubmit, reset} = useForm(); 
-    const onSubmit = (data) => {
-        post('/api/medicine', data, reset);
-    }
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = (data) => {
+    post("/api/medicine", data, reset);
+  };
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} >
-            <label> medicineEquipmentName </label>
-            <input {...register('medicineEquipmentName', {required: true})}/>
-            <br />
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Text_input
+        register={register}
+        name="medicineEquipmentName"
+        args={{ required: true }}
+      />
+      <Text_area register={register} name="notes" />
 
-            <label> notes </label>
-            <input {...register('notes', {required: true})}/>
-            <br />
-
-            <input type="submit" />
-        </form>
-    )
-}
+      <Submit />
+    </form>
+  );
+};
 
 export default AddAmbulance;

@@ -1,9 +1,11 @@
 import {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
-import {post} from '../Common/Common';
+import {post, Submit,Check_box, Text_area, Text_input, Phone_input, Select_city, Select_locations} from '../Common/Common';
+import useTiming from '../Common/UseTimingHook';
 
 const AddVaccinationCentre = ({cities}) => {
+    const {inputTiming, getTiming} = useTiming();
    const {register, handleSubmit, reset} = useForm(); 
     const onSubmit = (data) => {
         data = {
@@ -11,6 +13,7 @@ const AddVaccinationCentre = ({cities}) => {
             cityId: data.cityId,
             locationId: data.locationId,
         }
+        data = getTiming(data);
         post('/api/vaccinationcentre', data, reset);
     }
 
@@ -25,51 +28,43 @@ const AddVaccinationCentre = ({cities}) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
-            <label> city </label>
-            <select {...register('cityId')} onChange={(event) => getLocations(event.target.value)} >
-                {cities.map(city => <option key={city.id} value={city.id}> {city.cityName} </option>)}
-            </select>
-            <br />
-
-            <label> location </label>
-            <select {...register('locationId') } >
-                {locations.map(location => <option key={location.id} value={location.id}> {location.locationName} </option>)}
-            </select>
-            <br />
-
-            <label> price </label>
-            <input {...register('price', {required: true})}/>
-            <br />
-
-            <label> ageGroup </label>
-            <input {...register('ageGroup')}/>
-            <br />
             
-            <label> date </label>
-            <input type="date" {...register('date')}/>
-            <br />
-            
-            <label> timing </label>
-            <input {...register('timing')}/>
-            <br />
-            
-            <label> isAvailable </label>
-            <input type="checkbox" {...register('bookingLink')}/>
-            <br />
+            <Select_city register={register}
+            cities={cities}
+            getLocations={getLocations}
+        />
+        <Select_locations register={register} locations={locations} />
 
-            <label> isVerified </label>
-            <input type="checkbox" {...register('isVerified')}/>
-            <br />
+        <Text_input
+        register={register}
+        name="price"
+        type="number" />
 
-            <label> notes </label>
-            <input {...register('notes', {required: true})}/>
-            <br />
+        <Text_input
+        register={register}
+        name="ageGroup"
+     />
 
-            <label> phone </label>
-            <input type="phone" {...register('phone', {required: true})}/>
-            <br />
+        <Text_input
+        register={register}
+        name="date"
+        type="date" />
 
-            <input type="submit" />
+        {inputTiming({},register)}
+
+        <Check_box
+        register={register}
+        name="isAvailable"
+        />
+        <Check_box
+        register={register}
+        name="isVerified"
+        />
+
+        <Text_area register={register} name="notes" />
+        <Phone_input register={register} name="phone" />
+        <Submit />
+
         </form>
     )
 }

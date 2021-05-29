@@ -1,27 +1,29 @@
-import {useForm} from 'react-hook-form';
-import {post} from '../Common/Common';
+import { useForm } from "react-hook-form";
+import { post, Text_input,Submit } from "../Common/Common";
 
 const AddCity = () => {
-    const {register, handleSubmit, reset} = useForm(); 
-    const onSubmit = (data) => {
-        post('/api/master/city',data, reset);
-    }
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = (data) => {
+    post("/api/master/city", data, reset);
+  };
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} >
-            <label> cityname </label>
-            <input {...register('cityName', {required: true})}/>
-            <br />
-            
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Text_input
+        register={register}
+        name="cityName"
+        args={{ required: true }}
+      />
 
-            <label> state </label>
-            <input {...register('state', {required: true})}/>
-            <br />
+      <Text_input
+      register={register} 
+      name="state" 
+      args={{ required: true }} 
+      />
 
-            <input type="submit" />
-        </form>
-    )
-}
+      <Submit />
+    </form>
+  );
+};
 
 export default AddCity;
-

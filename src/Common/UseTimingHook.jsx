@@ -1,4 +1,3 @@
-
 const useTiming = () => {
   const getTiming = (data) => {
     data["timing"] = data.timingfrom + "-" + data.timingto;
@@ -9,27 +8,22 @@ const useTiming = () => {
 
   const inputTiming = (style, register) => (
     <div className="form-group row">
-      <label className="col-4" htmlFor="timing">
+      <label className="col-4" htmlFor="timing1">
         Timing
       </label>
       <input
         type="time"
         {...register("timingfrom")}
-        className="form-control p-0 text-center col"
+        className="form-control col-3"
         style={style.formControl}
-        id="timing"
+        id="timing1"
         required
       />
-      <span
-        className=" p-0 col-1 text-center align-items-center d-flex justify-content-center"
-        style={{ marginBottom: "5px" }}
-      >
-        {" to "}
-      </span>
+      <span className="col-1 pt-2 mr-2">to</span>
       <input
         {...register("timingto")}
         type="time"
-        className="form-control p-0 text-center col"
+        className="form-control col-3"
         style={style.formControl}
         id="timing"
         required

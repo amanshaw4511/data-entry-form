@@ -1,81 +1,94 @@
-import {useState} from 'react';
-import {useForm} from 'react-hook-form';
-import axios from 'axios';
-import {post} from '../Common/Common';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import {
+  post,
+  Text_area,
+  Text_input,
+  Submit,
+  Phone_input,
+  Select_city,
+  Select_locations,
+  Check_box,
+} from "../Common/Common";
 
-const AddHospitalBeds = ({cities}) => {
-   const {register, handleSubmit, reset} = useForm(); 
-    const onSubmit = (data) => {
-        data = {
-            ...data,
-            cityId: parseInt(data.cityId),
-            locationId: parseInt(data.locationId),
-        }
-        post('/api/hospitalbeds', data, reset);
-    }
-
-    const [locations, setLocations] = useState([]);
-    const getLocations = (cityId) => {
-        axios.get(process.env.REACT_APP_BASE_URL +'/api/master/location?locationTypeId=1&cityId=' + cityId)
-            .then((response => {
-                setLocations(response.data.payload);
-            }));
+const AddHospitalBeds = ({ cities }) => {
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = (data) => {
+    data = {
+      ...data,
+      cityId: parseInt(data.cityId),
+      locationId: parseInt(data.locationId),
     };
+    post("/api/hospitalbeds", data, reset);
+  };
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} >
-            <label> city </label>
-            <select {...register('cityId')} onChange={(event) => getLocations(event.target.value)} >
-                {cities.map(city => <option key={city.id} value={city.id}> {city.cityName} </option>)}
-            </select>
-            <br />
+  const [locations, setLocations] = useState([]);
+  const getLocations = (cityId) => {
+    axios
+      .get(
+        process.env.REACT_APP_BASE_URL +
+          "/api/master/location?locationTypeId=1&cityId=" +
+          cityId
+      )
+      .then((response) => {
+        console.log(response.data);
+        setLocations(response.data.payload);
+      });
+  };
 
-            <label> location </label>
-            <select {...register('locationId') } >
-                {locations.map(location => <option key={location.id} value={location.id}> {location.locationName} </option>)}
-            </select>
-            <br />
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Select_city
+        register={register}
+        cities={cities}
+        getLocations={getLocations}
+      />
+      <Select_locations register={register} locations={locations} />
 
-            <label> withOxygen </label>
-            <input {...register('withOxygen', {required: true})}/>
-            <br />
+      <Text_input
+        register={register}
+        name="withOxygen"
+        type="number"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="withoutOxygen"
+        type="number"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="icuWithVentilator"
+        type="number"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="icuWithoutVentilator"
+        type="number"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="charges"
+        type="number"
+        args={{ required: true }}
+      />
+      <Text_input
+        register={register}
+        name="bookingLink"
+        args={{ required: true }}
+      />
+      <Check_box register={register} name="isVerified" />
 
-            <label> icuWithoutVentilator </label>
-            <input {...register('icuWithoutVentilator')}/>
-            <br />
-            
-            <label> icuWithVentilator </label>
-            <input {...register('icuWithVentilator')}/>
-            <br />
-            
-            <label> charges </label>
-            <input type="number" {...register('charges')}/>
-            <br />
-            
-            <label> bookingLink </label>
-            <input {...register('bookingLink')}/>
-            <br />
+      <Text_area register={register} name="notes" />
 
-            <label> isVerified </label>
-            <input type="checkbox" {...register('isVerified')}/>
-            <br />
-
-            <label> notes </label>
-            <input {...register('notes', {required: true})}/>
-            <br />
-
-            <label> phone </label>
-            <input type="phone" {...register('phone', {required: true})}/>
-            <br />
-
-            <label> votes </label>
-            <input type="number" {...register('votes')}  disabled/>
-            <br />
-            
-
-            <input type="submit" />
-        </form>
-    )
-}
+      <Phone_input register={register} name="phone" />
+      <Submit />
+    </form>
+  );
+};
 
 export default AddHospitalBeds;
