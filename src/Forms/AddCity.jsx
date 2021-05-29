@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { post, Text_input,Submit } from "../Common/Common";
+import { post, Text_input, Submit } from "../Common/Common";
 
 const AddCity = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -15,11 +15,7 @@ const AddCity = () => {
         args={{ required: true }}
       />
 
-      <Text_input
-      register={register} 
-      name="state" 
-      args={{ required: true }} 
-      />
+      <Text_input register={register} name="state" args={{ required: true }} />
 
       <Submit />
     </form>

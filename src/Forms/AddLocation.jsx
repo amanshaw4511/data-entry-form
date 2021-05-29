@@ -7,7 +7,7 @@ import {
   Check_box,
   Submit,
   Select_city,
-  Select_location,
+  Select_location_type,
 } from "../Common/Common";
 import useTiming from "../Common/UseTimingHook";
 
@@ -39,7 +39,7 @@ const AddLocation = ({ cities }) => {
         args={{ required: true }}
       />
 
-      <Select_location register={register} locationTypes={locationTypes} />
+      <Select_location_type register={register} locationTypes={locationTypes} />
 
       <Text_area
         register={register}

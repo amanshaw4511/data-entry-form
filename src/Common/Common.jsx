@@ -15,8 +15,9 @@ const post = (path, data, reset) => {
   // reset({});
 };
 
-const Text_input = ({ register, name, type="text", args = {} }) => (
-  <div className="form-group row">
+const Text_input = ({ register, name, type="text", args = {} , err}) => (
+  <div className="form-group ">
+      <div className="row">
     <label className="col-4" htmlFor={name}>
       {" "}
       {name.replace(/([a-z])([A-Z])/g, `$1 $2`)}{" "}
@@ -27,12 +28,17 @@ const Text_input = ({ register, name, type="text", args = {} }) => (
       id={name}
       {...register(name, args)}
     />
+        </div>
+        <small className="form-text text-right text-danger">
+            {err != undefined ? err[0][name] && err[1] : "" }
+        </small>
   </div>
 );
 
 
-const Phone_input = ({ register, name, args = {} }) => (
-  <div className="form-group row">
+const Phone_input = ({ register, name, args = {}, err }) => (
+  <div className="form-group">
+      <div className="row" >
     <label className="col-4" htmlFor={name}>
       {" "}
       {name.replace(/([a-z])([A-Z])/g, `$1 $2`)}{" "}
@@ -42,11 +48,16 @@ const Phone_input = ({ register, name, args = {} }) => (
       id={name}
       {...register(name, args)}
     />
+    </div>
+        <small className="form-text text-right text-danger">
+            {err != undefined ? err[0][name] && err[1] : "" }
+        </small>
   </div>
 );
 
-const Text_area = ({ register, name, args = {} }) => (
-  <div className="form-group row">
+const Text_area = ({ register, name, args = {} , err}) => (
+  <div className="form-group ">
+      <div className="row">
     <label className="col-4" htmlFor={name}>
       {" "}
       {name.replace(/([a-z])([A-Z])/g, `$1 $2`)}{" "}
@@ -57,11 +68,16 @@ const Text_area = ({ register, name, args = {} }) => (
       rows="3"
       {...register(name, args)}
     ></textarea>
+    </div>
+        <small className="form-text text-right text-danger">
+            {err != undefined ? err[0][name] && err[1] : "" }
+        </small>
   </div>
 );
 
-const Check_box = ({ register, name, args = {} }) => (
-  <div className="form-group row ml-4">
+const Check_box = ({ register, name, args = {}, err }) => (
+  <div className="form-group ml-4">
+      <div className="row">
     <label className="" htmlFor={name}>
       {" "}
       {name.replace(/([a-z])([A-Z])/g, `$1 $2`)}{" "}
@@ -72,11 +88,16 @@ const Check_box = ({ register, name, args = {} }) => (
       id={name}
       {...register(name, args)}
     />
+    </div>
+        <small className="form-text text-right text-danger">
+            {err != undefined ? err[0][name] && err[1] : "" }
+        </small>
   </div>
 );
 
-const Select_city = ({ register, cities, getLocations = (_e) => true }) => (
-  <div className="form-group row">
+const Select_city = ({ register, cities, getLocations = (_e) => true, err }) => (
+  <div className="form-group">
+      <div className="row">
     <label className="col-4" htmlFor="city">
       city
     </label>
@@ -95,10 +116,15 @@ const Select_city = ({ register, cities, getLocations = (_e) => true }) => (
         </option>
       ))}
     </select>
+    </div>
+        <small className="form-text text-right text-danger">
+            {err != undefined ? err[0]['cityId'] && err[1] : "" }
+        </small>
   </div>
 );
-const Select_locations = ({ register, locations }) => (
-  <div className="form-group row">
+const Select_locations = ({ register, locations, err }) => (
+  <div className="form-group">
+      <div className="row">
     <label className="col-4" htmlFor="location">
       {" "}
       Location{" "}
@@ -116,11 +142,16 @@ const Select_locations = ({ register, locations }) => (
         </option>
       ))}
     </select>
+    </div>
+        <small className="form-text text-right text-danger">
+            {err != undefined ? err[0]['locationId'] && err[1] : "" }
+        </small>
   </div>
 );
 
-const Select_location = ({ register, locationTypes }) => (
-  <div className="form-group row">
+const Select_location_type = ({ register, locationTypes, err }) => (
+  <div className="form-group">
+      <div className="row">
     <label className="col-4" htmlFor="location">
       {" "}
       location Type{" "}
@@ -137,6 +168,10 @@ const Select_location = ({ register, locationTypes }) => (
         </option>
       ))}
     </select>
+    </div>
+        <small className="form-text text-right text-danger">
+            {err != undefined ? err[0]['locationTypeId'] && err[1] : "" }
+        </small>
   </div>
 );
 
@@ -149,7 +184,7 @@ export {
   Phone_input,
   Check_box,
   Select_city,
-  Select_location,
+  Select_location_type,
   Select_locations,
   Submit,
 };
