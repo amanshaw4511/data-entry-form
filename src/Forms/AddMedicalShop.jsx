@@ -16,7 +16,7 @@ import useTiming from "../Common/UseTimingHook";
 
 const AddMedicalShop = ({ cities }) => {
   const { inputTiming, getTiming } = useTiming();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState:{errors} } = useForm();
   const onSubmit = (data) => {
     data = getTiming(data);
     data = {
@@ -66,11 +66,15 @@ const AddMedicalShop = ({ cities }) => {
       {inputTiming({}, register)}
 
       <Check_box register={register} name="isVerified" />
+
       <Check_box register={register} name="isDeliverable" />
 
       <Text_area register={register} name="notes" />
 
-      <Phone_input register={register} name="phone" />
+      <Phone_input register={register} name="phone" 
+      args={{required:true}}
+      arr={[errors]}
+      />
 
       <Submit />
     </form>

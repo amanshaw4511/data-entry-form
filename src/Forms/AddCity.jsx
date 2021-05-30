@@ -12,7 +12,7 @@ const AddCity = () => {
       <Text_input
         register={register}
         name="cityName"
-        args={{ required: true }}
+      args={{ required: true,}}
       />
 
       <Text_input register={register} name="state" args={{ required: true }} />

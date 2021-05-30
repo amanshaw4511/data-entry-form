@@ -12,7 +12,7 @@ import {
 
 const AddAmbulance = ({ cities }) => {
   const { inputTiming, getTiming } = useTiming();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState:{errors}  } = useForm();
 
   const onSubmit = async (data) => {
     data = { ...data, cityId: parseInt(data.cityId) };
@@ -40,6 +40,7 @@ const AddAmbulance = ({ cities }) => {
 
       <Text_input
         register={register}
+        type="number"
         name="charges"
         args={{ required: true }}
       />
@@ -48,7 +49,10 @@ const AddAmbulance = ({ cities }) => {
 
       <Text_area register={register} name="notes" />
 
-      <Phone_input register={register} name="phone" />
+      <Phone_input register={register} name="phone" 
+        args={{ required: true }}
+        err={[errors]}
+      />
 
       <Submit />
     </form>

@@ -13,7 +13,7 @@ import useTiming from "../Common/UseTimingHook";
 
 const AddLocation = ({ cities }) => {
   const { inputTiming, getTiming } = useTiming();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState: {errors} } = useForm();
   const onSubmit = (data) => {
     data = {
       ...data,
@@ -41,12 +41,6 @@ const AddLocation = ({ cities }) => {
 
       <Select_location_type register={register} locationTypes={locationTypes} />
 
-      <Text_area
-        register={register}
-        name="locationName"
-        args={{ required: true }}
-      />
-
       <Check_box register={register} name="isPrivate" />
 
       <Check_box register={register} name="icuWithVentilator" />
@@ -54,11 +48,13 @@ const AddLocation = ({ cities }) => {
       <Text_input
       register={register}
       name="longitude"
-      />
+      args={{ pattern: /^[-+]?\d{1,2}(.\d+)?$/g }}
+      /> 
 
       <Text_input
       register={register}
       name="latitude"
+      args={{ pattern: /^[-+]?\d{1,2}(.\d+)?$/g }}
       />
 
 
@@ -66,7 +62,10 @@ const AddLocation = ({ cities }) => {
 
       <Text_area register={register} name="notes" />
 
-      <Phone_input register={register} name="phone" args={{ required: true }} />
+      <Phone_input register={register} name="phone" args={{ required: true }}
+      err={[errors]}
+      />
+      // number and comma
 
       <Submit />
     </form>

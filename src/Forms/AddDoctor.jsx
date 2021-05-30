@@ -10,7 +10,12 @@ import {
 } from "../Common/Common";
 
 const AddDoctor = ({ cities }) => {
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
     data = { ...data, cityId: parseInt(data.cityId) };
@@ -25,30 +30,19 @@ const AddDoctor = ({ cities }) => {
         name="doctorName"
         args={{ required: true }}
       />
+      <Text_input register={register} name="designation" />
+      <Text_input register={register} name="experience" />
+      <Text_input register={register} name="qualification" />
+      <Text_input register={register} name="medium" />
+      <Text_input register={register} name="mediumLink" />
       <Text_input
         register={register}
-        name="designation"
+        name="fees"
+        type="number"
         args={{ required: true }}
       />
-      <Text_input
-        register={register}
-        name="experience"
-        args={{ required: true }}
-      />
-      <Text_input
-        register={register}
-        name="qualification"
-        args={{ required: true }}
-      />
-      <Text_input register={register} name="medium" args={{ required: true }} />
-      <Text_input
-        register={register}
-        name="mediumLink"
-        args={{ required: true }}
-      />
-      <Text_input register={register} name="fees" args={{ required: true }} />
       <Text_area register={register} name="notes" />
-      <Phone_input register={register} name="phone" />
+      <Phone_input register={register} name="phone" err={[errors]} />
       <Text_area register={register} name="address" />
       <Check_box register={register} name="isVerified" />
       <Submit />

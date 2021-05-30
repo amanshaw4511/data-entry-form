@@ -36,7 +36,10 @@ const Text_input = ({ register, name, type="text", args = {} , err}) => (
 );
 
 
-const Phone_input = ({ register, name, args = {}, err }) => (
+const Phone_input = ({ register, name, args = {}, err }) => { 
+    args['pattern'] = /^\d{10}(,\d{10})*$/g;
+
+    return (
   <div className="form-group">
       <div className="row" >
     <label className="col-4" htmlFor={name}>
@@ -50,10 +53,10 @@ const Phone_input = ({ register, name, args = {}, err }) => (
     />
     </div>
         <small className="form-text text-right text-danger">
-            {err != undefined ? err[0][name] && err[1] : "" }
+            {err != undefined ? err[0][name] && "format : <10-digit-number>,<10-digit-number>..." : "" }
         </small>
   </div>
-);
+);};
 
 const Text_area = ({ register, name, args = {} , err}) => (
   <div className="form-group ">

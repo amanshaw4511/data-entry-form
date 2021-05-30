@@ -17,7 +17,6 @@ const useTiming = () => {
         className="form-control col-3"
         style={style.formControl}
         id="timing1"
-        required
       />
       <span className="col-1 pt-2 mr-2">to</span>
       <input
@@ -26,7 +25,6 @@ const useTiming = () => {
         className="form-control col-3"
         style={style.formControl}
         id="timing"
-        required
       />
     </div>
   );
