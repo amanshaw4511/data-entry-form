@@ -28,13 +28,13 @@ const AddHelpline = ({ cities }) => {
         name="helplineName"
         args={{ required: true }}
       />
-      <Text_input register={register} name="link" args={{ required: true }} />
-      <Phone_input register={register} name="phone" args={{ required: true }} />
+      <Text_input register={register} name="link" />
+      <Phone_input register={register} name="phone"
+      err={[errors]}
+      args={{ required: true }} />
       <Text_area
         register={register}
         name="notes"
-        args={{ required: true }}
-        err={[errors]}
       />
       <Text_input register={register} name="timing" />
       <Submit />

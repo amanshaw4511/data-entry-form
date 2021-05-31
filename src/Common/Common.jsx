@@ -12,7 +12,7 @@ const post = (path, data, reset) => {
       },
     }
   );
-  // reset({});
+  reset({});
 };
 
 const Text_input = ({ register, name, type="text", args = {} , err}) => (
@@ -37,7 +37,7 @@ const Text_input = ({ register, name, type="text", args = {} , err}) => (
 
 
 const Phone_input = ({ register, name, args = {}, err }) => { 
-    args['pattern'] = /^\d{10}(,\d{10})*$/g;
+    args['pattern'] = /^[\d,\-\+]*$/g;
 
     return (
   <div className="form-group">
@@ -53,7 +53,7 @@ const Phone_input = ({ register, name, args = {}, err }) => {
     />
     </div>
         <small className="form-text text-right text-danger">
-            {err != undefined ? err[0][name] && "format : <10-digit-number>,<10-digit-number>..." : "" }
+            {err != undefined ? err[0][name] && "can only contains [- + , digits]": "" }
         </small>
   </div>
 );};

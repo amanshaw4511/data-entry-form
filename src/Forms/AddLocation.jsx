@@ -43,7 +43,6 @@ const AddLocation = ({ cities }) => {
 
       <Check_box register={register} name="isPrivate" />
 
-      <Check_box register={register} name="icuWithVentilator" />
 
       <Text_input
       register={register}
@@ -60,12 +59,13 @@ const AddLocation = ({ cities }) => {
 
       {inputTiming("", register)}
 
+      <Text_area register={register} name="address" />
+
       <Text_area register={register} name="notes" />
 
-      <Phone_input register={register} name="phone" args={{ required: true }}
+      <Phone_input register={register} name="phone"
       err={[errors]}
       />
-      // number and comma
 
       <Submit />
     </form>
