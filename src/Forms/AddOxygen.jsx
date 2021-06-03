@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import {
-  post,
+import { post,
   Text_area,
   Text_input,
   Submit,
@@ -11,6 +10,7 @@ import {
   Phone_input,
   Check_box,
 } from "../Common/Common";
+
 import useTiming from "../Common/UseTimingHook";
 
 const AddOxygen = ({ cities }) => {
@@ -32,7 +32,7 @@ const AddOxygen = ({ cities }) => {
     axios
       .get(
         process.env.REACT_APP_BASE_URL +
-          "/api/master/location?locationTypeId=1&cityId=" +
+          "/api/master/location?locationTypeId=9&cityId=" +
           cityId
       )
       .then((response) => {
@@ -40,14 +40,24 @@ const AddOxygen = ({ cities }) => {
       });
   };
 
+
+  // const locationTypes = [
+  //   { id: 1, name: "Hostpital Location" },
+  //   { id: 2, name: "MedicalShop Location" },
+  //   { id: 9, name: "Oxygen Location" },
+  // ];
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+
+
       <Select_city
         register={register}
         cities={cities}
         getLocations={getLocations}
       />
       <Select_locations register={register} locations={locations} />
+
 
       <Text_input
         register={register}
