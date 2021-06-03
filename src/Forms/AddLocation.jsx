@@ -27,6 +27,7 @@ const AddLocation = ({ cities }) => {
   const locationTypes = [
     { id: 1, name: "Hostpital Location" },
     { id: 2, name: "MedicalShop Location" },
+    { id: 9, name: "Oxygen Location" },
   ];
 
   return (
