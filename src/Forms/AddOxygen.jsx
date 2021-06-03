@@ -19,8 +19,8 @@ const AddOxygen = ({ cities }) => {
   const onSubmit = (data) => {
     data = {
       ...data,
-      cityId: data.cityId,
-      locationId: data.locationId,
+      cityId: parseInt(data.cityId),
+      locationId: parseInt(data.locationId),
       stock: data.stock,
     };
     data = getTiming(data);
