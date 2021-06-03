@@ -40,9 +40,8 @@ const AddAmbulance = ({ cities }) => {
 
       <Text_input
         register={register}
-        type="number"
         name="charges"
-        args={{ required: true }}
+      args={{ required: true}}
       />
 
       {inputTiming("", register)}
