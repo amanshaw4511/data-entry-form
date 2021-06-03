@@ -21,7 +21,7 @@ const AddOxygen = ({ cities }) => {
       ...data,
       cityId: parseInt(data.cityId),
       locationId: parseInt(data.locationId),
-      stock: data.stock,
+      stock: parseInt(data.stock),
     };
     data = getTiming(data);
     post("/api/oxygen", data, reset);
